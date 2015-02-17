@@ -1,0 +1,35 @@
+name: nfs
+summary: NFS formula for shared data storage
+description: |
+  Installs and configures an nfs4 daemon with
+  the standard accompanying services, portmapd
+  and idmapd.
+
+  To use this, client services must implement
+  hooks for a storage relation that is compatible
+  with the 'mount' interface, see http://jujucharms.com/interfaces/mount.
+
+  Exported shares get created as new services
+  are joined.
+
+  For now, service units with the same servicename
+  share the same exported filesystem.
+
+categories:
+    - file-servers
+
+
+
+options:
+  initial_daemon_count:
+    type: int
+    default: 40
+    description: The number of nfs daemons to run on startup
+  storage_root:
+    type: string
+    default: /srv/data
+    description: The root path where exported directories will be created
+  export_options:
+    type: string
+    default: rw,sync,no_root_squash,no_all_squash
+    description: The default export options

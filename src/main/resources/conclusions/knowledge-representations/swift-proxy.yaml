@@ -1,0 +1,236 @@
+name: swift-proxy
+
+summary: "Swift proxy node"
+description: |
+  Swift is a distributed virtual object store. This formula deploys the proxy node
+  to be related to storage nodes.
+categories:
+    - cache-proxy
+
+requires:
+  swift-storage:
+    interface: swift
+  identity-service:
+    interface: keystone
+  ha:
+    interface: hacluster
+    scope: container
+
+
+options:
+  openstack-origin:
+    default: distro
+    type: string
+    description: |
+      Repository from which to install.  May be one of the following:
+      distro (default), ppa:somecustom/ppa, a deb url sources entry,
+      or a supported Cloud Archive release pocket.
+      .
+      Supported Cloud Archive sources include:
+        - cloud:precise-folsom,
+        - cloud:precise-folsom/updates
+        - cloud:precise-folsom/staging
+        - cloud:precise-folsom/proposed
+      .
+      Note that updating this setting to a source that is known to
+      provide a later version of OpenStack will trigger a software
+      upgrade.
+  region:
+    default: RegionOne
+    type: string
+    description: OpenStack region that this swift-proxy supports.
+  # Ring configuration
+  partition-power:
+    default: 8
+    type: int
+    description: Partition power.
+  replicas:
+    default: 3
+    type: int
+    description: Minimum replicas.
+  min-hours:
+    default: 0
+    type: int
+    description: |
+      This is the Swift ring builder min_part_hours parameter. This
+      setting represents the amount of time in hours that Swift will wait
+      between subsequent ring re-balances in order to avoid large i/o loads as
+      data is re-balanced when new devices are added to the cluster. Once your
+      cluster has been built, you can set this to a higher value e.g. 1
+      (upstream default). Note that changing this value will result in an
+      attempt to re-balance and if successful, rings will be redistributed.
+  disable-ring-balance:
+    type: boolean
+    default: False
+    description: |
+      This provides similar support to min-hours but without having to modify
+      the builders. If True, any changes to the builders will not result in a
+      ring re-balance and sync until this value is set back to False.
+  zone-assignment:
+    default: "manual"
+    type: string
+    description: |
+      Which policy to use when assigning new storage nodes to zones.
+      .
+        manual - Allow swift-storage services to request zone membership.
+        auto - Assign new swift-storage units to zones automatically.
+      .
+      The configured replica minimum must be met by an equal number of storage
+      zones before the storage ring will be initially balance.  Deployment
+      requirements differ based on the zone-assignment policy configured, see
+      this charm's README for details.
+  # User provided SSL cert and key
+  ssl_cert:
+    type: string
+    default:
+    description: |
+      Base64 encoded SSL certificate to install and use for API ports.
+      .
+         juju set swift-proxy ssl_cert="$(cat cert | base64)" \
+                              ssl_key="$(cat key | base64)"
+      .
+      Setting this value (and ssl_key) will enable reverse proxying, point
+      Swifts's entry in the Keystone catalog to use https, and override
+      any certficiate and key issued by Keystone (if it is configured to
+      do so).
+  ssl_key:
+    type: string
+    default:
+    description: |
+      Base64 encoded SSL key to use with certificate specified as ssl_cert.
+  # General Swift Proxy configuration
+  bind-port:
+    default: 8080
+    type: int
+    description: TCP port to listen on
+  workers:
+    default: 0
+    type: int
+    description: |
+      Number of TCP workers to launch (0 for the number of system cores).
+  operator-roles:
+    default: "Member,Admin"
+    type: string
+    description: Comma-separated list of Swift operator roles.
+  auth-type:
+    default: tempauth
+    type: string
+    description: Auth method to use, tempauth or keystone
+  delay-auth-decision:
+    default: true
+    type: boolean
+    description: Delay authentication to downstream WSGI services.
+  node-timeout:
+    default: 60
+    type: int
+    description: |
+      How long the proxy server will wait on responses from the
+      account/container/object servers.
+  recoverable-node-timeout:
+    default: 30
+    type: int
+    description: |
+      How long the proxy server will wait for an initial response and to read a
+      chunk of data from the object servers while serving GET / HEAD requests.
+      Timeouts from these requests can be recovered from so setting this to
+      something lower than node-timeout would provide quicker error recovery
+      while allowing for a longer timeout for non-recoverable requests (PUTs).
+  # Manual Keystone configuration.
+  keystone-auth-host:
+    type: string
+    default:
+    description: Keystone authentication host
+  keystone-auth-port:
+    default: 35357
+    type: int
+    description: Keystone authentication port
+  keystone-auth-protocol:
+    default: http
+    type: string
+    description: Keystone authentication protocol
+  keystone-admin-tenant-name:
+    default: service
+    type: string
+    description: Keystone admin tenant name
+  keystone-admin-user:
+    type: string
+    default:
+    description: Keystone admin username
+  keystone-admin-password:
+    type: string
+    default:
+    description: Keystone admin password
+  # HA configuration settings
+  swift-hash:
+    type: string
+    default:
+    description: Hash to use across all swift-proxy servers - don't loose
+  vip:
+    type: string
+    default:
+    description: |
+      Virtual IP(s) to use to front API services in HA configuration.
+      .
+      If multiple networks are being used, a VIP should be provided for each
+      network, separated by spaces.
+  ha-bindiface:
+    type: string
+    default: eth0
+    description: |
+      Default network interface on which HA cluster will bind to communication
+      with the other members of the HA Cluster.
+  ha-mcastport:
+    type: int
+    default: 5414
+    description: |
+      Default multicast port number that will be used to communicate between
+      HA Cluster nodes.
+  # Network configuration options
+  # by default all access is over 'private-address'
+  os-admin-network:
+    type: string
+    default:
+    description: |
+      The IP address and netmask of the OpenStack Admin network (e.g.,
+      192.168.0.0/24)
+      .
+      This network will be used for admin endpoints.
+  os-internal-network:
+    type: string
+    default:
+    description: |
+      The IP address and netmask of the OpenStack Internal network (e.g.,
+      192.168.0.0/24)
+      .
+      This network will be used for internal endpoints.
+  os-public-network:
+    type: string
+    default:
+    description: |
+      The IP address and netmask of the OpenStack Public network (e.g.,
+      192.168.0.0/24)
+      .
+      This network will be used for public endpoints.
+  prefer-ipv6:
+    type: boolean
+    default: False
+    description: |
+      If True enables IPv6 support. The charm will expect network interfaces
+      to be configured with an IPv6 address. If set to False (default) IPv4
+      is expected.
+      .
+      NOTE: these charms do not currently support IPv6 privacy extension. In
+      order for this charm to function correctly, the privacy extension must be
+      disabled and a non-temporary address must be configured/available on
+      your network interface.
+  nagios_context:
+    default: "juju"
+    type: string
+    description: |
+      Used by the nrpe-external-master subordinate charm.
+      A string that will be prepended to instance name to set the host name
+      in nagios. So for instance the hostname would be something like:
+          juju-myservice-0
+      If you're running multiple environments with the same services in them
+      this allows you to differentiate between them.
+

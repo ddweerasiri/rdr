@@ -1,0 +1,6 @@
+name: ubuntu
+summary: A pristine Ubuntu Server
+description: |
+  This simply deploys Ubuntu Server.
+categories:
+     - misc

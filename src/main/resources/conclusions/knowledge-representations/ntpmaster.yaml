@@ -1,0 +1,17 @@
+name: ntpmaster
+summary: NTP master services for your charms
+
+description: |
+  This charm provides NTP master services for use with other
+  charms through the use of the ntp subordinate charm.
+categories:
+    - misc
+provides:
+  master:
+    interface: ntp
+
+options:
+  source:
+    type: string
+    description: Space separated list of NTP servers and options to use as source for time. Use LOCAL if the machine has no references but itself.
+    default: "0.ubuntu.pool.ntp.org 1.ubuntu.pool.ntp.org 2.ubuntu.pool.ntp.org"

@@ -1,0 +1,191 @@
+name: quantum-gateway
+summary: Virtual Networking for OpenStack - Neutron Gateway
+
+description: |
+  Neutron is a virtual network service for Openstack, and a part of
+  Netstack. Just like OpenStack Nova provides an API to dynamically
+  request and configure virtual servers, Neutron provides an API to
+  dynamically request and configure virtual networks. These networks
+  connect "interfaces" from other OpenStack services (e.g., virtual NICs
+  from Nova VMs). The Neutron API supports extensions to provide
+  advanced network capabilities (e.g., QoS, ACLs, network monitoring,
+  etc.)
+  .
+  This charm provides central Neutron networking services as part
+  of a Neutron based Openstack deployment
+categories:
+    - openstack
+
+requires:
+  shared-db:
+    interface: mysql-shared
+  pgsql-db:
+    interface: pgsql
+  amqp:
+    interface: rabbitmq
+  amqp-nova:
+    interface: rabbitmq
+  neutron-plugin-api:
+    interface: neutron-plugin-api
+  ha:
+    interface: hacluster
+    scope: container
+
+
+options:
+  plugin:
+    default: ovs
+    type: string
+    description: |
+      Network configuration plugin to use for quantum.
+      Supported values include:
+      .
+        ovs - OpenVSwitch
+        nvp|nsx - Nicira NVP/VMware NSX
+        n1kv - Cisco N1kv
+  ext-port:
+    type: string
+    default:
+    description: |
+      A space-separated list of external ports to use for routing of instance
+      traffic to the external public network. Valid values are either MAC
+      addresses (in which case only MAC addresses for interfaces without an IP
+      address already assigned will be used), or interfaces (eth0)
+  data-port:
+    type: string
+    default:
+    description: |
+      The data port will be added to br-data and will allow usage of flat or VLAN
+      network types with Neutron.
+  openstack-origin:
+    type: string
+    default: distro
+    description: |
+      Optional configuration to support use of additional sources such as:
+      .
+        - ppa:myteam/ppa
+        - cloud:precise-folsom/proposed
+        - cloud:precise-folsom
+        - deb http://my.archive.com/ubuntu main|KEYID
+      .
+      Note that quantum/neutron is only supported >= Folsom.
+  run-internal-router:
+    type: string
+    default: all
+    description: |
+      Optional configuration to support how the L3 agent option
+      handle_internal_only_routers is configured.
+      all    => Set to be true everywhere
+      none   => Set to be false everywhere
+      leader => Set to be true on one node (the leader) and false everywhere
+                else.
+      Use leader and none when configuring multiple floating pools
+  external-network-id:
+    type: string
+    default:
+    description: |
+      Optional configuration to set the external-network-id. Only needed when
+      configuring multiple external networks and should be used in conjunction
+      with run-internal-router.
+  rabbit-user:
+    type: string
+    description: RabbitMQ user
+    default: neutron
+  rabbit-vhost:
+    type: string
+    description: RabbitMQ Virtual Host
+    default: openstack
+  nova-rabbit-user:
+    type: string
+    description: RabbitMQ Nova user
+    default: nova
+  nova-rabbit-vhost:
+    type: string
+    description: RabbitMQ Nova Virtual Host
+    default: openstack
+  debug:
+    default: False
+    type: boolean
+    description: Enable debug logging
+  verbose:
+    default: False
+    type: boolean
+    description: Enable verbose logging
+  use-syslog:
+    type: boolean
+    default: False
+    description: |
+      If set to True, supporting services will log to syslog.
+  instance-mtu:
+    type: int
+    default:
+    description: |
+      Configure DHCP services to provide MTU configuration to instances
+      within the cloud.  This is useful in deployments where its not
+      possible to increase MTU on switches and physical servers to
+      accomodate the packet overhead of using GRE tunnels.
+  enable-l3-agent:
+    type: boolean
+    default: True
+    description: |
+      Optional configuration to support use of linux router
+      Note that this is used only for Cisco n1kv plugin.
+  database-user:
+    default: nova
+    type: string
+    description: Username for database access
+  database:
+    default: nova
+    type: string
+    description: Database name
+  nagios_context:
+    default: "juju"
+    type: string
+    description: |
+      Used by the nrpe-external-master subordinate charm.
+      A string that will be prepended to instance name to set the host name
+      in nagios. So for instance the hostname would be something like:
+          juju-myservice-0
+      If you're running multiple environments with the same services in them
+      this allows you to differentiate between them.
+  # Network configuration options
+  # by default all access is over 'private-address'
+  os-data-network:
+    type: string
+    default:
+    description: |
+      The IP address and netmask of the OpenStack Data network (e.g.,
+      192.168.0.0/24)
+      .
+      This network will be used for tenant network traffic in overlay
+      networks.
+  sysctl:
+    type: string
+    default:
+    description: |
+      YAML-formatted associative array of sysctl key/value pairs to be set
+      persistently e.g. '{ kernel.pid_max : 4194303 }'.
+  # Legacy (Icehouse) HA
+  ha-legacy-mode:
+    type: boolean
+    default: False
+    description: |
+      If True will enable Pacemaker to monitor the neutron-ha-monitor daemon
+      on every neutron-gateway unit, which detects neutron agents status and
+      reschedule resources hosting on failed agents, detects local errors and
+      release resources when network is unreachable or do neccessary recover
+      tasks. This feature targets to < Juno which doesn't natively support HA
+      in Neutron itself.
+  ha-bindiface:
+    type: string
+    default: eth0
+    description: |
+      Default network interface on which HA cluster will bind to communicate
+      with the other members of the HA Cluster.
+  ha-mcastport:
+    type: int
+    default: 5409
+    description: |
+      Default multicast port number that will be used to communicate between
+      HA Cluster nodes.
+

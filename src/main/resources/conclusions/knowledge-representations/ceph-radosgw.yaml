@@ -1,0 +1,110 @@
+name: ceph-radosgw
+summary: Highly scalable distributed storage - RADOS HTTP Gateway
+
+description: |
+ Ceph is a distributed storage and network file system designed to provide
+ excellent performance, reliability, and scalability.
+ .
+ This charm provides the RADOS HTTP gateway supporting S3 and Swift protocols
+ for object storage.
+categories:
+  - misc
+requires:
+  mon:
+    interface: ceph-radosgw
+  identity-service:
+    interface: keystone
+  ha:
+    interface: hacluster
+    scope: container
+
+
+options:
+  source:
+    type: string
+    default: cloud:precise-updates/folsom
+    description: |
+      Optional configuration to support use of additional sources such as:
+      .
+        - ppa:myteam/ppa
+        - cloud:precise-proposed/folsom
+        - http://my.archive.com/ubuntu main
+      .
+      The last option should be used in conjunction with the key configuration
+      option.
+      .
+      Note that a minimum ceph version of 0.48.2 is required for use with this
+      charm which is NOT provided by the packages in the main Ubuntu archive
+      for precise.
+  key:
+    type: string
+    default:
+    description: |
+      Key ID to import to the apt keyring to support use with arbitary source
+      configuration from outside of Launchpad archives or PPA's.
+  # Keystone integration
+  operator-roles:
+    default: "Member,Admin"
+    type: string
+    description: |
+      Comma-separated list of Swift operator roles; used when integrating with
+      OpenStack Keystone.
+  region:
+    default: RegionOne
+    type: string
+    description: |
+      OpenStack region that the RADOS gateway supports; used when integrating with
+      OpenStack Keystone.
+  cache-size:
+    default: 500
+    type: int
+    description: Number of keystone tokens to hold in local cache.
+  revocation-check-interval:
+    default: 600
+    type: int
+    description: Interval between revocation checks to keystone.
+  use-syslog:
+    type: boolean
+    default: False
+    description: |
+      If set to True, supporting services will log to syslog.
+  use-ceph-optimised-packages:
+    type: boolean
+    default: false
+    description: |
+        By default apache2 and libapache2-mod-fastcgi will be installed from the
+        Ubuntu archives. This option allows for an alternate ceph.com install
+        source which contains patched versions with added support for HTTP
+        100-continue. See the following page for more info:
+
+        http://ceph.com/docs/dumpling/radosgw/manual-install/#continue-support
+  use-embedded-webserver:
+    type: boolean
+    default: false
+    description: |
+      Newer versions of the Ceph RADOS Gateway support use of an embedded web
+      container instead of Apache + mod-fastcgi, avoiding some of the nuances
+      of using the stock mod-fastcgi packages from Ubuntu.
+      .
+      Enable this option to disable use of Apache and enable the embedded
+      web container feature.
+  vip:
+    type: string
+    default:
+    description: |
+      Virtual IP(s) to use to front API services in HA configuration.
+      .
+      If multiple networks are being used, a VIP should be provided for each
+      network, separated by spaces.
+  ha-bindiface:
+    type: string
+    default: eth0
+    description: |
+      Default network interface on which HA cluster will bind to communication
+      with the other members of the HA Cluster.
+  ha-mcastport:
+    type: int
+    default: 5414
+    description: |
+      Default multicast port number that will be used to communicate between
+      HA Cluster nodes.

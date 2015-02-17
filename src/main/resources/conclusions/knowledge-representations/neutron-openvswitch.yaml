@@ -1,0 +1,78 @@
+name: neutron-openvswitch
+subordinate: true
+
+summary: "OpenStack Neutron OpenvSwitch Agent"
+description: |
+  Neutron is a virtual network service for Openstack, and a part of
+  Netstack. Just like OpenStack Nova provides an API to dynamically
+  request and configure virtual servers, Neutron provides an API to
+  dynamically request and configure virtual networks. These networks
+  connect "interfaces" from other OpenStack services (e.g., virtual NICs
+  from Nova VMs). The Neutron API supports extensions to provide
+  advanced network capabilities (e.g., QoS, ACLs, network monitoring,
+  etc.)
+  .
+  This charm provides the OpenStack Neutron OpenvSwitch agent, managing
+  L2 connectivity on nova-compute services.
+categories:
+  - openstack
+
+requires:
+  amqp:
+    interface: rabbitmq
+  container:
+    interface: juju-info
+    scope: container
+  neutron-plugin-api:
+    interface: neutron-plugin-api
+
+
+options:
+  rabbit-user:
+    default: neutron
+    type: string
+    description: Username used to access RabbitMQ queue
+  rabbit-vhost:
+    default: openstack
+    type: string
+    description: RabbitMQ vhost
+  use-syslog:
+    type: boolean
+    default: False
+    description: |
+      By default, all services will log into their corresponding log files.
+      Setting this to True will force all services to log to the syslog.
+  debug:
+    default: False
+    type: boolean
+    description: Enable debug logging
+  verbose:
+    default: False
+    type: boolean
+    description: Enable verbose logging
+  data-port:
+    type: string
+    default:
+    description: |
+      The data port will be added to br-data and will allow usage of flat or VLAN
+      network types
+  disable-security-groups:
+    type: boolean
+    default: false
+    description: |
+      Disable neutron based security groups - setting this configuration option
+      will override any settings configured via the neutron-api charm.
+      .
+      BE CAREFUL - this option allows you to disable all port level security within
+      an OpenStack cloud.
+  # Network configuration options
+  # by default all access is over 'private-address'
+  os-data-network:
+    type: string
+    default:
+    description: |
+      The IP address and netmask of the OpenStack Data network (e.g.,
+      192.168.0.0/24)
+      .
+      This network will be used for tenant network traffic in overlay
+      networks.

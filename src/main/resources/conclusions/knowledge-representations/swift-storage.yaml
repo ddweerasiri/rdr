@@ -1,0 +1,120 @@
+name: swift-storage
+
+summary: "Swift storage node"
+description: |
+  Contains swift-object, swift-container and swift-account servers.
+categories:
+    - file-servers
+
+
+options:
+  openstack-origin:
+    default: distro
+    type: string
+    description: |
+      Repository from which to install.  May be one of the following:
+      distro (default), ppa:somecustom/ppa, a deb url sources entry,
+      or a supported Cloud Archive release pocket.
+      .
+      Supported Cloud Archive sources include: cloud:precise-folsom,
+      cloud:precise-folsom/updates, cloud:precise-folsom/staging,
+      cloud:precise-folsom/proposed.
+      .
+      Note that updating this setting to a source that is known to
+      provide a later version of OpenStack will trigger a software
+      upgrade.
+  block-device:
+    default: sdb
+    type: string
+    description: |
+      Device to be used to back Swift storage.  May be any valid block
+      device or a path and size to a local file (/path/to/file.img|$sizeG),
+      which will be created and used as a loopback device (for testing only).
+      Multiple devices may be specified as a space-separated list of devices.
+      If set to "guess", the charm will attempt to format and mount all extra
+      block devices (this is currently experimental and potentially dangerous).
+  overwrite:
+    default: "false"
+    type: string
+    description: |
+      If true, charm will attempt to unmount and overwrite existing and in-use
+      block-devices (WARNING).
+  zone:
+    default: 1
+    type: int
+    description: |
+      Swift storage zone to request membership.  Relevant only when the
+      swift-proxy charm has been configured for manual zone assignment
+      (the default).  This should be changed for every service unit.
+  object-server-port:
+    default: 6000
+    type: int
+    description: Listening port of the swift-object-server.
+  container-server-port:
+    default: 6001
+    type: int
+    description: Listening port of the swift-container-server.
+  account-server-port:
+    default: 6002
+    type: int
+    description: Listening port of the swift-account-server.
+  worker-multiplier:
+    default: 1
+    type: int
+    description: |
+      The CPU multiplier to use when configuring worker processes for the
+      account, container and object server processes.
+  object-server-threads-per-disk:
+    default: 4
+    type: int
+    description: |
+      Size of the per-disk thread pool used for performing disk I/O. 0 means
+      to not use a per-disk thread pool. It is recommended to keep this value
+      small, as large values can result in high read latencies due to large
+      queue depths. A good starting point is 4 threads per disk.
+  prefer-ipv6:
+    type: boolean
+    default: False
+    description: |
+      If True enables IPv6 support. The charm will expect network interfaces
+      to be configured with an IPv6 address. If set to False (default) IPv4
+      is expected.
+      .
+      NOTE: these charms do not currently support IPv6 privacy extension. In
+      order for this charm to function correctly, the privacy extension must be
+      disabled and a non-temporary address must be configured/available on
+      your network interface.
+  account-max-connections:
+    default: 2
+    type: int
+    description: |
+      Number of connections allowed to the account rsync stanza.
+  container-max-connections:
+    default: 2
+    type: int
+    description: |
+      Number of connections allowed to the container rsync stanza.
+  object-max-connections:
+    default: 2
+    type: int
+    description: |
+      Number of connections allowed to the object rsync stanza.
+  object-replicator-concurrency:
+    default: 1
+    type: int
+    description: |
+      Number of replication workers to spawn.
+  nagios-check-params:
+    default: "-m -r 60 180 10 20"
+    type: string
+    description: String appended to nagios check
+  nagios_context:
+    default: "juju"
+    type: string
+    description: |
+      Used by the nrpe-external-master subordinate charm.
+      A string that will be prepended to instance name to set the host name
+      in nagios. So for instance the hostname would be something like:
+          juju-myservice-0
+      If you're running multiple environments with the same services in them
+      this allows you to differentiate between them.
