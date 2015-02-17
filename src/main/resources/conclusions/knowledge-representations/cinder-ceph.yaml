@@ -4,10 +4,10 @@ summary: Ceph integration for OpenStack Block Storage
 description: |
  Cinder is the block storage service for the Openstack project.
  .
- This charm provides a Ceph storage backend for Cinder
+ This URep provides a Ceph storage backend for Cinder
 categories:
   - miscellaneous
-subordinate: true
+URep
 
 requires:
   juju-info:

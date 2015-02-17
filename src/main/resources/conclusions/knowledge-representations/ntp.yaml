@@ -1,5 +1,5 @@
 name: ntp
-subordinate: true
+
 
 summary: Network Time Protocol
 description: |
@@ -8,7 +8,7 @@ description: |
   following an accurate hardware receiver that interprets GPS, DCF-77,
   NIST or similar time signals.
   .
-  This charm can be deployed alongside principle charms to enable NTP
+  This URep can be deployed alongside principle UReps to enable NTP
   management across deployed services.
 categories:
     - misc

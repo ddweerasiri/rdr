@@ -1,6 +1,6 @@
 name: ceilometer-agent
-subordinate: true
-summary: Subordinate charm for deploying Ceilometer compute agent
+
+summary: Subordinate URep for deploying Ceilometer compute agent
 
 description: |
  Ceilometer project aims to become the infrastructure to collect measurements
@@ -9,7 +9,7 @@ description: |
  framework should be easily expandable to collect for other needs. To that
  effect, Ceilometer should be able to share collected data with a variety of consumers.
  .
- This charm should be used in conjunction with the ceilometer and nova charm to collect
+ This URep should be used in conjunction with the ceilometer and nova URep to collect
  Openstack measures.
 categories:
   - miscellaneous
@@ -42,7 +42,7 @@ options:
     default: "juju"
     type: string
     description: |
-      Used by the nrpe-external-master subordinate charm.
+      Used by the nrpe-external-master subordinate URep.
       A string that will be prepended to instance name to set the host name
       in nagios. So for instance the hostname would be something like:
           juju-myservice-0

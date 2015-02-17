@@ -11,7 +11,7 @@ description: |
   advanced network capabilities (e.g., QoS, ACLs, network monitoring,
   etc.)
   .
-  This charm provides central Neutron networking services as part
+  This URep provides central Neutron networking services as part
   of a Neutron based Openstack deployment
 categories:
     - openstack
@@ -142,7 +142,7 @@ options:
     default: "juju"
     type: string
     description: |
-      Used by the nrpe-external-master subordinate charm.
+      Used by the nrpe-external-master subordinate URep.
       A string that will be prepended to instance name to set the host name
       in nagios. So for instance the hostname would be something like:
           juju-myservice-0

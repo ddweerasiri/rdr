@@ -61,7 +61,7 @@ options:
     type: string
     default: ''
     description: |
-        Name and location of ssl keyfile in charm/data directory.
+        Name and location of ssl keyfile in URep/data directory.
         If not found, will ignore.  Basename of this file will be used
         as the basename of the key rooted at /etc/ssl/private.  Can
         be used in conjuntion with the ssl_key parameter to specify
@@ -70,7 +70,7 @@ options:
     type: string
     default: ''
     description: |
-        Name and location of ssl certificate in charm/data directory.
+        Name and location of ssl certificate in URep/data directory.
         If not found, will ignore.  Basename of this file will be used
         as the basename of the cert rooted at /etc/ssl/certs.  Can
         be used in conjunction with the ssl_cert parameter to specify
@@ -123,7 +123,7 @@ options:
     default: "juju"
     type: string
     description: >
-        Used by the nrpe-external-master subordinate charm.
+        Used by the nrpe-external-master subordinate URep.
         A string that will be prepended to instance name to set the host name
         in nagios. So for instance the hostname would be something like:
             juju-postgresql-0

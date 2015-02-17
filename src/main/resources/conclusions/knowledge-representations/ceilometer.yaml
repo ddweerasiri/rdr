@@ -90,7 +90,7 @@ options:
     default: "juju"
     type: string
     description: |
-      Used by the nrpe-external-master subordinate charm.
+      Used by the nrpe-external-master subordinate URep.
       A string that will be prepended to instance name to set the host name
       in nagios. So for instance the hostname would be something like:
           juju-myservice-0

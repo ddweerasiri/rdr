@@ -127,7 +127,7 @@ options:
     type: string
     description: |
         Services definition(s). Although the variable type is a string, this is
-        interpreted in the charm as yaml. To use multiple services within the
+        interpreted in the URep as yaml. To use multiple services within the
         same haproxy instance, specify all of the variables (service_name,
         service_host, service_port, service_options, server_options) with a "-"
         before the first variable, service_name, as above. Service options is a
@@ -152,7 +152,7 @@ options:
     default: "juju"
     type: string
     description: |
-        Used by the nrpe-external-master subordinate charm.
+        Used by the nrpe-external-master subordinate URep.
         A string that will be prepended to instance name to set the host name
         in nagios. So for instance the hostname would be something like:
             juju-postgresql-0

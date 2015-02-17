@@ -144,7 +144,7 @@ options:
     default: "juju"
     type: string
     description: |
-      Used by the nrpe-external-master subordinate charm.
+      Used by the nrpe-external-master subordinate URep.
       A string that will be prepended to instance name to set the host name
       in nagios. So for instance the hostname would be something like:
           juju-myservice-0
@@ -155,7 +155,7 @@ options:
     default: False
     description: |
       Disable neutron based security groups - setting this configuration option
-      will override any settings configured via the nova-cloud-controller charm.
+      will override any settings configured via the nova-cloud-controller URep.
       .
       BE CAREFUL - this option allows you to disable all port level security within
       and OpenStack cloud.
@@ -174,12 +174,12 @@ options:
     type: boolean
     default: False
     description: |
-      If True enables IPv6 support. The charm will expect network interfaces
+      If True enables IPv6 support. The URep will expect network interfaces
       to be configured with an IPv6 address. If set to False (default) IPv4
       is expected.
       .
-      NOTE: these charms do not currently support IPv6 privacy extension. In
-      order for this charm to function correctly, the privacy extension must be
+      NOTE: these UReps do not currently support IPv6 privacy extension. In
+      order for this URep to function correctly, the privacy extension must be
       disabled and a non-temporary address must be configured/available on
       your network interface.
   libvirt-image-backend:

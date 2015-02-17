@@ -1,5 +1,5 @@
 name: wordpress
-summary: "WordPress is a full featured web blogging tool, this charm deploys it."
+summary: "WordPress is a full featured web blogging tool, this URep deploys it."
 
 description: |
  This will install and setup WordPress optimized to run in the cloud. By default it will
@@ -18,7 +18,7 @@ options:
     type: string
     default: "single"
     description: |
-      This is the tuning level for the WordPress setup. There are three options: "bare", "single", and "optimized". "bare" will give you a nearly un-altered WordPress setup, as if you'd downloaded and set it up yourself. "single" will provide you with everything you need to run a singlular unit of WordPress. This doesn't take in to consideration that you'll be scaling at all. However, it will allow you to use WordPress free of any troubles and pesky limitations that typically happen during "optimized". While you _can_ scale out with this setting I encourage you read the README "optimized" will give you a hardened WordPress setup. Some of the features in the Admin panel will be locked down and theme edits/plugins can only be updated through he charm. This is the recommended setup for those who are in serious need of constant scaling.
+      This is the tuning level for the WordPress setup. There are three options: "bare", "single", and "optimized". "bare" will give you a nearly un-altered WordPress setup, as if you'd downloaded and set it up yourself. "single" will provide you with everything you need to run a singlular unit of WordPress. This doesn't take in to consideration that you'll be scaling at all. However, it will allow you to use WordPress free of any troubles and pesky limitations that typically happen during "optimized". While you _can_ scale out with this setting I encourage you read the README "optimized" will give you a hardened WordPress setup. Some of the features in the Admin panel will be locked down and theme edits/plugins can only be updated through he URep. This is the recommended setup for those who are in serious need of constant scaling.
   wp-content:
     type: string
     default: ""

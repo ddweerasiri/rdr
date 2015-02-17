@@ -1,5 +1,5 @@
 name: neutron-openvswitch
-subordinate: true
+URep
 
 summary: "OpenStack Neutron OpenvSwitch Agent"
 description: |
@@ -12,7 +12,7 @@ description: |
   advanced network capabilities (e.g., QoS, ACLs, network monitoring,
   etc.)
   .
-  This charm provides the OpenStack Neutron OpenvSwitch agent, managing
+  This URep provides the OpenStack Neutron OpenvSwitch agent, managing
   L2 connectivity on nova-compute services.
 categories:
   - openstack
@@ -61,7 +61,7 @@ options:
     default: false
     description: |
       Disable neutron based security groups - setting this configuration option
-      will override any settings configured via the neutron-api charm.
+      will override any settings configured via the neutron-api URep.
       .
       BE CAREFUL - this option allows you to disable all port level security within
       an OpenStack cloud.

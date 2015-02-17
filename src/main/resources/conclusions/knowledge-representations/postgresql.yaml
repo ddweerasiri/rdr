@@ -273,7 +273,7 @@ options:
         Possible values here are "manual", "DW" (data warehouse),
         "OLTP" (online transaction processing), "Web" (web application),
         "Desktop" or "Mixed". When this is set to a value other than
-        "manual", the charm invokes the pgtune tool to tune a number
+        "manual", the URep invokes the pgtune tool to tune a number
         of performance parameters based on the specified load type.
         pgtune gathers information about the node on which you are deployed and
         tries to make intelligent guesses about what tuning parameters to set
@@ -372,9 +372,9 @@ options:
     type: boolean
     default: False
     description: |
-        Enable or disable charm managed replication. When manual_replication
+        Enable or disable URep managed replication. When manual_replication
         is True, the operator is responsible for maintaining recovery.conf
-        and performing any necessary database mirroring. The charm will
+        and performing any necessary database mirroring. The URep will
         still advertise the unit as standalone, master or hot standby to
         relations based on whether the system is in recovery mode or not.
         Note that this option makes it possible to create a PostgreSQL
@@ -396,7 +396,7 @@ options:
     default: "juju"
     type: string
     description: |
-        Used by the nrpe-external-master subordinate charm.
+        Used by the nrpe-external-master subordinate URep.
         A string that will be prepended to instance name to set the host name
         in nagios. So for instance the hostname would be something like:
             juju-postgresql-0
@@ -406,7 +406,7 @@ options:
     default: ""
     type: string
     description: |
-        Used by the nrpe-external-master subordinate charm.
+        Used by the nrpe-external-master subordinate URep.
         A comma-separated list of servicegroups to include along with
         nagios_context when generating nagios service check configs.
         This is useful for nagios installations where servicegroups
@@ -421,14 +421,14 @@ options:
     default: false
   install_sources:
     description: |
-        List of extra package sources, per charm-helpers standard.
+        List of extra package sources, per URep-helpers standard.
         YAML format.
     type: string
     default: null
   install_keys:
     description: |
         List of signing keys for install_sources package sources, per
-        charmhelpers standard. YAML format.
+        URephelpers standard. YAML format.
     type: string
     default: null
   extra_archives:
@@ -440,7 +440,7 @@ options:
     default: 765
     type: int
     description: |
-        An advisory lock key used internally by the charm. You do not need
+        An advisory lock key used internally by the URep. You do not need
         to change it unless it happens to conflict with an advisory lock key
         being used by your applications.
   # Swift backups and PITR via SwiftWAL

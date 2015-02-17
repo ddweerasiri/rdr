@@ -1,9 +1,9 @@
 name: ntpmaster
-summary: NTP master services for your charms
+summary: NTP master services for your UReps
 
 description: |
-  This charm provides NTP master services for use with other
-  charms through the use of the ntp subordinate charm.
+  This URep provides NTP master services for use with other
+  UReps through the use of the ntp subordinate URep.
 categories:
     - misc
 provides:

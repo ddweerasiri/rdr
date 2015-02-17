@@ -7,7 +7,7 @@ description: |
 
   To use this, client services must implement
   hooks for a storage relation that is compatible
-  with the 'mount' interface, see http://jujucharms.com/interfaces/mount.
+  with the 'mount' interface, see http://jujuUReps.com/interfaces/mount.
 
   Exported shares get created as new services
   are joined.
